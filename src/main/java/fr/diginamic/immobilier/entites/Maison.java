@@ -20,6 +20,10 @@ public class Maison {
 	 * @param nvPiece nouvelle pièce à ajouter
 	 */
 	public void ajouterPiece(Piece nvPiece) {
+
+		if (nvPiece == null) {
+			throw new IllegalArgumentException("La pièce ne peut pas être nulle.");
+		}
 		
 		// On est obligé d'agrandir le tableau initial de 1 à chaque ajout
 		// d'une nouvelle pièce
@@ -42,7 +46,7 @@ public class Maison {
 	}
 	
 	public int nbPieces() {
-		return pieces.length-1;
+		return pieces.length;
 	}
 
 	/** Retourne la superficie d'un étage
@@ -54,7 +58,7 @@ public class Maison {
 
 		for (int i = 0; i < pieces.length; i++) {
 			if (choixEtage == this.pieces[i].getNumEtage()) {
-				superficieEtage = this.pieces[i].getSuperficie();
+				superficieEtage = superficieEtage + this.pieces[i].getSuperficie();
 			}
 		}
 
@@ -68,7 +72,20 @@ public class Maison {
 	public double superficieTypePiece(String typePiece) {
 		double superficie = 0;
 
-		for (int i = 1; i < pieces.length; i++) {
+		if (typePiece == null || typePiece.isEmpty()){
+			throw new IllegalArgumentException("Le type de pièce ne peut pas être nulle.");
+		}
+		String trimmed = typePiece.trim();
+		if (typePiece.isEmpty()){
+			throw new IllegalArgumentException("Le type de pièce ne peut pas être nulle.");
+		}
+		if (typePiece != null) {
+			String typePieceNettoye = trimmed.substring(0, 1).toUpperCase()
+							+ trimmed.substring(1).toLowerCase();
+			typePiece = typePieceNettoye;
+		}
+
+		for (int i = 0; i < pieces.length; i++) {
 			if (typePiece!=null && typePiece.equals(this.pieces[i].getType())) {
 				superficie = superficie + this.pieces[i].getSuperficie();
 			}
